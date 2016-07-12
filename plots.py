@@ -15,7 +15,7 @@ df = df.replace('NaN',0)
 #pl.plot(df["salary"])
 #print df["salary"]
 feature = 'exercised_stock_options'
-limit = 10000000
+limit = 7000000
 #plt.figure()
 df.boxplot(feature, by = "poi")
 plt.show()

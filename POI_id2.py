@@ -16,13 +16,13 @@ from sklearn.decomposition import PCA
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-#features_list = ['poi', 'exercised_stock_options', 'total_stock_value']# 'bonus', 'salary', 'deferred_income'] # You will need to use more features
-features_list_all = ['salary',"bonus","to_messages",'total_payments','exercised_stock_options',
-                  'shared_receipt_with_poi', 'restricted_stock_deferred', 'total_stock_value', 'expenses',
-                  'loan_advances', 'from_messages', 'other', 'from_this_person_to_poi', 'director_fees',
-                  'deferred_income', 'long_term_incentive', 'from_poi_to_this_person']
-features_list = ["poi"]
-features_list += features_list_all
+features_list = ['poi', 'exercised_stock_options','bonus'] #'total_stock_value', 'bonus', 'salary', 'deferred_income'] # You will need to use more features
+# features_list_all = ['salary',"bonus","to_messages",'total_payments','exercised_stock_options',
+#                   'shared_receipt_with_poi', 'restricted_stock_deferred', 'total_stock_value', 'expenses',
+#                   'loan_advances', 'from_messages', 'other', 'from_this_person_to_poi', 'director_fees',
+#                   'deferred_income', 'long_term_incentive', 'from_poi_to_this_person']
+# features_list = ["poi"]
+# features_list += features_list_all
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
@@ -30,6 +30,10 @@ with open("final_project_dataset.pkl", "r") as data_file:
 
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
+data_dict.pop("THE TRAVEL AGENCY IN THE PARK")
+data_dict.pop("LAVORATO JOHN J")
+data_dict.pop('HIRKO JOSEPH')
+data_dict.pop('LAY KENNETH L')
 ### Task 3: Create new feature(s)
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
@@ -57,7 +61,7 @@ clf = make_pipeline(PCA(),SVC())
 ### function. Because of the small size of the dataset, the script uses
 ### stratified shuffle split cross validation. For more info:
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-clf.set_params(svc__C=1, svc__gamma = 0.001, pca__n_components = 5)
+clf.set_params(svc__C=1, svc__gamma = 0.001, pca__n_components = 2)
 # Example starting point. Try investigating other evaluation techniques!
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
