@@ -11,6 +11,7 @@ with open("final_project_dataset.pkl", "r") as data_file:
 
 df = pd.DataFrame.from_dict(data_dict, orient = "index")
 df = df.replace('NaN',0)
+df.to_csv('dataset.csv')
 
 #pl.plot(df["salary"])
 #print df["salary"]
