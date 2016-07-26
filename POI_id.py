@@ -34,17 +34,29 @@ with open("final_project_dataset.pkl", "r") as data_file:
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
 data_dict.pop("THE TRAVEL AGENCY IN THE PARK")
+
 ### Task 3: Create new feature(s)
-### Store to my_dataset for easy export below.
 
 for item, value in data_dict.items():
     if value['exercised_stock_options']=='NaN' or value['bonus']== 'NaN' or value['salary']=='NaN':
         value['fin1'] = 'NaN'
     else:
-        value["fin1"] = value['exercised_stock_options']/(value['bonus']+value['salary'])
+        value["fin1"] = value['exercised_stock_options']/float(value['bonus']+value['salary'])
+
+    if value['to_messages'] == 'NaN' or value['from_poi_to_this_person'] == 'NaN':
+        value['to_fraction'] = 'NaN'
+    else:
+        value['to_fraction'] = value['from_poi_to_this_person']/float(value['to_messages'])
+
+    if value['from_messages'] == 'NaN' or value['from_this_person_to_poi'] == 'NaN':
+        value['from_fraction'] = 'NaN'
+    else:
+        value['from_fraction'] = value['from_this_person_to_poi']/float(value['from_messages'])
 
 
-#features_list.append('fin1')
+features_list.append('fin1')
+features_list.append('to_fraction')
+features_list.append('from_fraction')
 my_dataset = data_dict
 
 ### Extract features and labels from dataset for local testing

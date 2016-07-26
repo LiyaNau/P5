@@ -7,11 +7,16 @@ sys.path.append("../tools/")
 
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
-    data_dict.pop('TOTAL')
+
+
+# data_dict.pop('TOTAL')
 
 df = pd.DataFrame.from_dict(data_dict, orient = "index")
 df = df.replace('NaN',0)
-df.to_csv('dataset.csv')
+
+print df['other']
+
+# df.to_csv('dataset.csv')
 
 #pl.plot(df["salary"])
 #print df["salary"]

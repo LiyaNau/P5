@@ -42,7 +42,7 @@ labels, features = targetFeatureSplit(data)
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import StratifiedShuffleSplit
 
-cv = StratifiedShuffleSplit(labels,n_iter = 50, test_size=0.2)
+cv = StratifiedShuffleSplit(labels,n_iter = 100, test_size=0.4, random_state=45)
 steps = [('scale', MinMaxScaler()), ('knearest', KNeighborsClassifier())]
 clf = Pipeline(steps)
 

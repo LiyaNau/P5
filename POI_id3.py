@@ -40,12 +40,12 @@ labels, features = targetFeatureSplit(data)
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import StratifiedShuffleSplit
 
-cv = StratifiedShuffleSplit(labels,n_iter = 30, test_size=0.2)
-clf = RandomForestClassifier(class_weight="balanced")
+cv = StratifiedShuffleSplit(labels,n_iter = 30, test_size=0.2,random_state=45)
+clf = RandomForestClassifier(class_weight="balanced", random_state=33)
 
 param_grid = {'n_estimators':[10,50,100,200],
               'max_features':[17,10,5,"auto"]}
-grid = GridSearchCV(clf, param_grid ,verbose=True, cv=cv, scoring = 'recall' )
+grid = GridSearchCV(clf, param_grid ,verbose=True, cv=cv, scoring = 'f1' )
 grid.fit(features,labels)
 print "best estimator:", grid.best_estimator_
 print "best score:", grid.best_score_
