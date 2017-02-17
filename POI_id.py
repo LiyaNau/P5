@@ -2,6 +2,7 @@
 
 import sys
 import pickle
+import pandas as pd
 sys.path.append("../tools/")
 
 
@@ -13,6 +14,7 @@ from sklearn.grid_search import GridSearchCV
 from sklearn.cross_validation import StratifiedShuffleSplit
 from sklearn.naive_bayes import GaussianNB
 from sklearn.pipeline import Pipeline
+
 
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
@@ -65,15 +67,19 @@ labels, features = targetFeatureSplit(data)
 # print features[0] + features[1]
 
 
-# selector = SelectKBest(f_classif, k = 5)
-# selector.fit(features,labels)
-# features = selector.transform(features)
-#
-# features_df = pd.DataFrame({'feature':features_list_all,
-#                             'score':selector.scores_})
-# features_df.sort_values(by="score",ascending=False,inplace=True)
-# best_features = list(features_df["feature"][0:5])
-# #print best_features
+selector = SelectKBest(f_classif, k=5)
+features_list_all.append('fin1')
+features_list_all.append('to_fraction')
+features_list_all.append('from_fraction')
+selector.fit(features, labels)
+#eatures = selector.transform(features)
+
+features_df = pd.DataFrame({'feature': features_list_all,
+                            'score': selector.scores_})
+features_df.sort_values(by="score", ascending=False, inplace=True)
+best_features = list(features_df["feature"][0:5])
+print best_features
+print features_df
 #
 # features_list = ["poi"] + best_features
 # print features_list
