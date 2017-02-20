@@ -25,7 +25,7 @@ features_list_all = ['salary',"bonus","to_messages",'total_payments','exercised_
                  'loan_advances', 'from_messages', 'other', 'from_this_person_to_poi', 'director_fees',
                  'deferred_income', 'long_term_incentive', 'from_poi_to_this_person']
 features_list = ["poi"]
-features_list += features_list_all
+
  # You will need to use more features
 
 ### Load the dictionary containing the dataset
@@ -35,7 +35,7 @@ with open("final_project_dataset.pkl", "r") as data_file:
 
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
-data_dict.pop("THE TRAVEL AGENCY IN THE PARK")
+#data_dict.pop("THE TRAVEL AGENCY IN THE PARK")
 
 ### Task 3: Create new feature(s)
 
@@ -56,9 +56,10 @@ for item, value in data_dict.items():
         value['from_fraction'] = value['from_this_person_to_poi']/float(value['from_messages'])
 
 
-features_list.append('fin1')
-features_list.append('to_fraction')
-features_list.append('from_fraction')
+# features_list_all.append('fin1')
+# features_list_all.append('to_fraction')
+# features_list_all.append('from_fraction')
+features_list += features_list_all
 my_dataset = data_dict
 
 ### Extract features and labels from dataset for local testing
@@ -67,19 +68,19 @@ labels, features = targetFeatureSplit(data)
 # print features[0] + features[1]
 
 
-selector = SelectKBest(f_classif, k=5)
-features_list_all.append('fin1')
-features_list_all.append('to_fraction')
-features_list_all.append('from_fraction')
-selector.fit(features, labels)
-#eatures = selector.transform(features)
+#selector = SelectKBest(f_classif, k=5)
+# features_list_all.append('fin1')
+# features_list_all.append('to_fraction')
+# features_list_all.append('from_fraction')
+#selector.fit(features, labels)
+#features = selector.transform(features)
 
-features_df = pd.DataFrame({'feature': features_list_all,
-                            'score': selector.scores_})
-features_df.sort_values(by="score", ascending=False, inplace=True)
-best_features = list(features_df["feature"][0:5])
-print best_features
-print features_df
+#features_df = pd.DataFrame({'feature': features_list_all,
+#                            'score': selector.scores_})
+# features_df.sort_values(by="score", ascending=False, inplace=True)
+# best_features = list(features_df["feature"][0:5])
+# print best_features
+# print features_df
 #
 # features_list = ["poi"] + best_features
 # print features_list
@@ -89,13 +90,23 @@ cv = StratifiedShuffleSplit(labels,n_iter = 100, test_size=0.4,random_state=45)
 steps = [('skb', SelectKBest()), ('nb', GaussianNB())]
 clf = Pipeline(steps)
 
-param_grid = {'skb__k':range(1,17)}
+param_grid = {'skb__k':range(1,18)}
 grid = GridSearchCV(clf, param_grid ,verbose=True, cv=cv, scoring = 'f1' )
 grid.fit(features,labels)
 print "best estimator:", grid.best_estimator_
 print "best score:", grid.best_score_
 clf = grid.best_estimator_
 
+selector = SelectKBest(f_classif, k=5)
+selector.fit(features, labels)
+features_df = pd.DataFrame({'feature': features_list_all,
+                           'score': selector.scores_})
+features_df.sort_values(by="score", ascending=False, inplace=True)
+best_features = list(features_df["feature"][0:5])
+print best_features
+
+features_list = ["poi"] + best_features
+print features_list
 # ### Extract features and labels from dataset for local testing
 # data = featureFormat(my_dataset, features_list, sort_keys = True)
 # labels, features = targetFeatureSplit(data)
