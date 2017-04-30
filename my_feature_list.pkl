@@ -9,6 +9,6 @@ aS'bonus'
 p4
 aS'salary'
 p5
-aS'deferred_income'
+aS'from_fraction'
 p6
 a.
