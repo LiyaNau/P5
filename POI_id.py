@@ -33,6 +33,8 @@ with open("final_project_dataset.pkl", "r") as data_file:
 
 ### Task 2: Remove outliers
 data_dict.pop('TOTAL')
+data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
+data_dict.pop('LOCKHART EUGENE E')
 
 
 ### Task 3: Create new feature(s)
@@ -70,7 +72,7 @@ clf = Pipeline(steps)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall
 
-param_grid = {'skb__k':range(1,18)}
+param_grid = {'skb__k':range(1,len(features_list_all))}
 grid = GridSearchCV(clf, param_grid ,verbose=True, cv=cv, scoring = 'f1' )
 grid.fit(features,labels)
 print "best estimator:", grid.best_estimator_
